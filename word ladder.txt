@@ -1,0 +1,50 @@
+#include<queue>
+
+class Solution {
+public:  
+    inline int Distance(string x,string y) {
+        int n = x.length();
+        int num = 0;
+        for (int i = 0; i<n; i++) {
+            if (x[i]!=y[i]) num++;
+            if (num>1) return num;
+        }
+        return num;
+    }
+    
+    int ladderLength(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if (start == end) return 0;
+        queue<string> qu;
+        queue<int> dis;
+        int n = start.size();
+        unordered_set<string> visit;
+    	dict.insert(end);
+        visit.insert(start);
+        qu.push(start);
+        dis.push(1);
+        while (!qu.empty()) {
+            string now = qu.front();
+            int ans = dis.front();
+            dis.pop();
+            qu.pop();
+            ans ++;
+            for (int i = 0; i<n; i++) {
+                string temp = now;
+                for (char ch = 'a'; ch<='z'; ch++) {
+                    temp[i] = ch;
+                    if (dict.find(temp) != dict.end() && visit.find(temp)==visit.end() && Distance(temp,now)==1) {
+                        if (temp == end) return ans;
+                        qu.push(temp);
+                        dis.push(ans);
+				    	visit.insert(temp);
+					//cout<<"finished"<<endl;
+                    }
+                }
+            }
+	//		return 0;
+        }
+        return 0;
+    }
+};

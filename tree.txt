@@ -1,0 +1,36 @@
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void connect(TreeLinkNode * root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        TreeLinkNode * p = root, * q , * head;
+        q = NULL;
+        while (p != NULL) {
+            if (p->left != NULL) q = p->left;
+    		if (q!=NULL) break;
+            if (p->right !=NULL) q = p->right;
+            if (q!=NULL) break;
+            p = p->next;
+        }
+        
+        if (q == NULL) return;
+
+        head = q;
+		if (p->left == q && p->right != NULL) { q->next = p->right; q = q->next; } 
+        while (p->next != NULL) {
+            p = p->next;
+            if (p->left!=NULL) {q->next = p->left; q = q->next; }
+            if (p->right!=NULL) {q->next = p ->right; q = q->next; }
+        }
+        q->next = NULL;
+        connect(head);
+    }
+};

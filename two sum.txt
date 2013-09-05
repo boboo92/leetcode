@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int> &numbers, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<int> old = numbers;
+        sort(numbers.begin(),numbers.end());
+        int n = numbers.size();
+        int i,j = n-1;
+        for (i = 0; i<n; i++) {
+            while (numbers[i]+numbers[j]>target) j--;
+            if (numbers[i]+numbers[j] == target) break;
+        }
+        vector<int> ans;
+        for (int k=0; k<n; k++) {
+            if (old[k] == numbers[i] || old[k] == numbers[j]) ans.push_back(k+1);
+        }
+        return ans;
+    }
+};

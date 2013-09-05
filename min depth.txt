@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int depth;
+    
+    void Search(TreeNode *root, int now) {
+        if (root == NULL) return;
+        now++;
+        if (root->left == NULL && root->right == NULL) {
+           if (depth == -1 || now<depth) depth = now;
+           return;
+        }
+        Search(root->left,now);
+        Search(root->right,now);
+    }
+    
+     int minDepth(TreeNode *root) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        depth = -1;
+        Search(root,0);
+        if (depth == -1) depth++;
+        return depth;
+    }
+};

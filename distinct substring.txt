@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int numDistinct(string S, string T) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int n = S.length();
+        int m = T.length();
+        vector<int> f(n,0);
+        for (int i = 0; i<n; i++)
+          if (S[i] == T[0]) f[i] = 1;
+        
+        for (int i = 1; i<m; i++) {
+            int temp = 0;
+            for (int j = 0; j<n; j++) {
+                int w = f[j];
+                if (T[i] == S[j]) f[j] = temp;
+                  else f[j] = 0;
+                temp += w;
+            }            
+        }
+        
+        int ans = 0;
+        for (int i = 0; i<n; i++)
+          ans += f[i];
+        return ans;
+    }
+};

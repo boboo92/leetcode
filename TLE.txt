@@ -1,0 +1,139 @@
+class Solution {
+public:
+    vector<unordered_set<string>::iterator> qu;
+    vector<int> pre,dis;
+    vector<vector<string>> ans;
+    int f,r;
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        qu.clear();
+        pre.clear();
+        dis.clear();
+        ans.clear();
+        f = 0; r = 1;
+        int n = start.length();
+        qu.push_back(dict.find(start));
+        pre.push_back(-1);
+        dis.push_back(1);
+        int dest_dis = -5;
+        while (f<r) {
+            string now = *qu[f];
+            int now_dis = dis[f];
+            if (now_dis == dest_dis) break;
+            for (int i = 0; i<n; i++) {
+                string temp = now;
+                for (char ch='a'; ch<='z'; ch++) {
+                    temp[i] = ch;
+                    if (dict.find(temp)!=dict.end() && temp != now) {
+                        qu.push_back(dict.find(temp));
+                        dis.push_back(now_dis+1);
+                        pre.push_back(f);
+                        if (temp == end) dest_dis = now_dis + 1;
+                        r++;
+                    }
+                }
+            }
+            f++;
+        }
+        
+        while (f<r) {
+            string now = *qu[f];
+            if (now == end) {
+                int t = f;
+                vector<string> temp;
+                while (t != -1) {
+                    temp.push_back(*qu[t]);
+                    t = pre[t];
+                }
+                reverse(temp.begin(),temp.end());
+                ans.push_back(temp);
+            }
+            f++;
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    vector<unordered_set<string>::iterator> qu;
+    vector<int> pre,dis;
+    vector<vector<string>> ans;
+    unordered_set<string> visit;
+    int f,r;
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        qu.clear();
+        pre.clear();
+        dis.clear();
+        ans.clear();
+		visit.clear();
+        f = 0; r = 1;
+        int n = start.length();
+        qu.push_back(dict.find(start));
+        pre.push_back(-1);
+        dis.push_back(1);
+        int dest_dis = -5;
+		bool flag = true;
+        while (f<r && flag) {
+          int r1 = r;
+          int f1 = f; 
+          while (f<r1) {
+            string now = *qu[f];
+            int now_dis = dis[f];
+			if (now_dis == dest_dis) {flag = false; break; }
+            for (int i = 0; i<n; i++) {
+                string temp = now;
+                for (char ch='a'; ch<='z'; ch++) {
+                    temp[i] = ch;
+					if (dict.find(temp)!=dict.end() && temp != now && visit.find(temp)==visit.end()) {
+                        qu.push_back(dict.find(temp));
+                        dis.push_back(now_dis+1);
+                        pre.push_back(f);
+                        if (temp == end) dest_dis = now_dis + 1;
+                        r++;
+                    }
+                }
+            }
+            f++;
+          }
+          for (int i = f1; i<r1; i++)
+			  visit.insert(*qu[i]);          
+        }
+        
+        while (f<r) {
+            string now = *qu[f];
+            if (now == end) {
+                int t = f;
+                vector<string> temp;
+                while (t != -1) {
+                    temp.push_back(*qu[t]);
+                    t = pre[t];
+                }
+                reverse(temp.begin(),temp.end());
+                ans.push_back(temp);
+            }
+            f++;
+        }
+        return ans;
+    }
+};
